@@ -122,7 +122,7 @@ const Source = React.createClass({
                 <div className="panel__content">
                     <ChoiceControl
                         label="server"
-                        propKey="url" choices={serverChoices}
+                        propKey="server" choices={serverChoices}
                         onChange={this.onServerChange}
                         value={server}
                     />
