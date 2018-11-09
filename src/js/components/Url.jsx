@@ -9,24 +9,37 @@
 import React, { Component } from 'react';
 import ReactZeroClipboard   from 'react-zeroclipboard';
 import SourceStore          from './../stores/SourceStore';
-import ResizeStore  from './ResizeStore';
-
-// const url = {
-//     width: width,
-//     height: height,
-//     smart: smart,
-//     image_url: image_url
-// }
+import ResizeStore          from './../stores/ResizeStore';
 
 class Url extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dimensions: ResizeStore.config()
-            notice: false
+            notice: false,
+            dimensions: ResizeStore.config(),
+            image: SourceStore.image()
         };
         this.timer = null;
     }
+
+    RequestUrl(data) {
+        let request = {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'default',
+            body: data
+        }
+        try {
+            fetch(url, request)
+            .then((resp) => resp.text())   
+            .then(resp => {
+                console.log(resp)
+            })  
+        } catch (error) {
+            console.log("Error", error.message)
+        }
+    }
+
 
     onAfterCopy() {
         this.setState({
@@ -38,23 +51,16 @@ class Url extends Component {
         this.setState({
             notice: false
         });
-    } 
+    }
 
-    RequestUrl(url) {
-        let request = {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'default'
+    componentWillUpdate() {
+        let url = {
+            width: this.state.dimensions.width,
+            height: this.state.dimensions.height, 
+            url: this.state.image,
+            smart: true
         }
-        try {
-            fetch(url, request)
-            .then((resp) => resp.text())   
-            .then(resp => {
-                console.log(resp)
-            })  
-        } catch (error) {
-            console.log("Error", error.message)
-        }
+        this.RequestUrl(JSON.stringify(url))
     }
 
     render() {
@@ -69,7 +75,8 @@ class Url extends Component {
         } else {
             statusNode = <i className="fa fa-check"/>;
         }
-        debugger
+
+        console.log("NARUTOOO", this.state)
 
         return (
             <div>

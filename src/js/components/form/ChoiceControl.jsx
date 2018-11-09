@@ -23,7 +23,6 @@ class ChoiceControl extends Control {
         var { label, propKey, choices, value } = this.props;
 
         var options = choices.map(choice => {
-            console.log("Aquii",choice.value, choice.label)
             return <option key={choice.value} value={choice.value}>{choice.label}</option>;
         });
         return (
