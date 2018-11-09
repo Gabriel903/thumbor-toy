@@ -9,12 +9,20 @@
 import React, { Component } from 'react';
 import ReactZeroClipboard   from 'react-zeroclipboard';
 import SourceStore          from './../stores/SourceStore';
+import ResizeStore  from './ResizeStore';
 
+// const url = {
+//     width: width,
+//     height: height,
+//     smart: smart,
+//     image_url: image_url
+// }
 
 class Url extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            dimensions: ResizeStore.config()
             notice: false
         };
         this.timer = null;
@@ -30,6 +38,23 @@ class Url extends Component {
         this.setState({
             notice: false
         });
+    } 
+
+    RequestUrl(url) {
+        let request = {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'default'
+        }
+        try {
+            fetch(url, request)
+            .then((resp) => resp.text())   
+            .then(resp => {
+                console.log(resp)
+            })  
+        } catch (error) {
+            console.log("Error", error.message)
+        }
     }
 
     render() {
@@ -44,6 +69,7 @@ class Url extends Component {
         } else {
             statusNode = <i className="fa fa-check"/>;
         }
+        debugger
 
         return (
             <div>
