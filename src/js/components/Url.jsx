@@ -23,15 +23,15 @@ class Url extends Component {
     }
 
     RequestUrl(data) {
+        const headers  = new Headers({"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"})
         let request = {
             method: 'POST',
             mode: 'cors',
             cache: 'default',
-            body: data
+            body: data         
         }
         try {
-            fetch(url, request)
-            .then((resp) => resp.text())   
+            fetch('http://thumbor-url.gcloud.dev.globoi.com', request)  
             .then(resp => {
                 console.log(resp)
             })  
